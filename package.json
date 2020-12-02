@@ -4,6 +4,9 @@
   "description": "\u0016Application that takes in a location and date and saves your travel plan, outputting the average temperature for that time.",
   "main": "index.js",
   "scripts": {
+    "start": "node src/server/server.js",
+    "build-prod": "webpack --config webpack.prod.js",
+    "build-dev": "webpack serve --config webpack.dev.js",
     "test": "test"
   },
   "repository": {

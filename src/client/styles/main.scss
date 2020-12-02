@@ -1,0 +1,53 @@
+main{
+  position: relative;
+  width: 90vw;
+  height: auto;
+  margin:auto;
+  display: flex;
+  flex-direction: column;
+}
+.new_trip{
+  right: 10%;
+  border-radius: 10px;
+  font-size: 18px;
+  width: fit-content;
+  align-self: flex-end;
+}
+.trips{
+  min-height: 50vh;
+  width: 100%;
+  background-color: cyan;
+}
+.trips-card{
+  min-height: 40vh;
+  width: 100%;
+  background-color: red;
+  margin-bottom: 15px;
+  padding: 15px 0px 15px 0px;
+  display: grid;
+  text-align: center;
+  grid-template-areas:
+  "trip-photo"
+  "trip-header"
+  "trip-countdown"
+  "trip-weather"
+  "trip-buttons";
+}
+.trips-card-photo{
+  grid-area: trip-photo;
+  margin: auto;
+  max-width: 50vw;
+  height: auto;
+}
+.trips-card-header{
+  grid-area: trip-header;
+}
+.trips-card-buttons{
+  grid-area: trip-buttons;
+}
+.trip-card-countdown{
+  grid-area: trip-cowntdown;
+}
+.trips-card-weather{
+  grid-area: trip-weather;
+}
