@@ -6,12 +6,23 @@ main{
   display: flex;
   flex-direction: column;
 }
+.block{
+  display: block !important;
+}
 .new_trip{
   right: 10%;
   border-radius: 10px;
   font-size: 18px;
   width: fit-content;
   align-self: flex-end;
+}
+#new_trip_overlay{
+  position:absolute;
+  width: 75vw;
+  height: 50vh;
+  background-color: green;
+  margin:auto;
+  display: none;
 }
 .trips{
   min-height: 50vh;

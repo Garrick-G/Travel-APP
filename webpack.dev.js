@@ -7,11 +7,15 @@ module.exports = {
     entry: './src/index.js',
     // TODO - Add output here
     output: {
-        libraryTarget: 'var',
-        library: 'Client'
+      path: path.resolve(__dirname, '..', 'dist'),
+      libraryTarget: 'var',
+      library: 'tripFunctions',
+    },
+    devServer:{
+      port: 9000,
     },
     mode: 'development',
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {
@@ -20,8 +24,8 @@ module.exports = {
                 loader: "babel-loader"
             },
             {
-                test: /\.scss$/,
-                use: [ 'style-loader', 'css-loader', 'sass-loader' ]
+              test: /\.scss$/,
+              use: ['style-loader', 'css-loader', 'sass-loader'],
             }
         ]
     },
@@ -29,6 +33,7 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: "./src/client/html/index.html",
             filename: "./index.html",
+            inject: true,
         }),
         new CleanWebpackPlugin({
             // Simulate the removal of files
