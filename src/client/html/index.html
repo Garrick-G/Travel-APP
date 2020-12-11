@@ -9,9 +9,9 @@
       <h1>Travel-Prep</h1>
     </header>
     <main>
-      <button type="button" name="new_trip" class="new_trip" onclick="return tripFunctions.newTripOverlay()">+ add trip</button>
+      <button type="button" name="new_trip" class="new_trip" onclick="return tripFunctions.newTripOverlay(event)">+ add trip</button>
       <div class="trips">
-        <div class="trips-card">
+        <!--<div class="trips-card">
             <img src="src\client\media\androidParty.jpg" alt="" class="trips-card-photo">
             <div class="trips-card-header">
               <h3>Honduras</h3>
@@ -29,17 +29,21 @@
               <button type="button" name="add-packing">+ add packing list</button>
               <button type="button" name="add-notes">+ add notes</button>
             </div>
-        </div>
-      </div>
-      <div id="new_trip_overlay">
-        <form class="new_trip_overlay_input" onsbumit="return tripFunctions.addTrip(event)">
-            <label for="trip_location">Location:</label>
-            <input type="text" name="location" id="trip_location" value="" placeholder="eg: Cabo">
-            <label for="trip_date">Departure:</label>
-            <input type="text" id="trip_date" name="date" value="" placeholder="eg: 2/29/2021">
-            <input type="submit" name="submit" value="+ Add Trip" onclick="return tripFunctions.addTrip(event)" onsubmit="return tripFunctions.addTrip(event)">
-        </form>
+        </div>-->
       </div>
     </main>
+    <div id="new_trip_overlay">
+      <form class="new_trip_overlay_input" onsbumit="return tripFunctions.addTrip(event)">
+        <div class="input_bundle">
+          <label for="trip_location">Location:</label>
+          <input type="text" name="location" id="trip_location" value="" placeholder="eg: Cabo">
+        </div>
+        <div class="input_bundle">
+          <label for="trip_date">Departure:</label>
+          <input type="text" id="trip_date" name="date" value="" placeholder="eg: 2/29/2021">
+        </div>
+        <input type="submit" name="submit" value="+ Add Trip" onclick="return tripFunctions.addTrip(event)" onsubmit="return tripFunctions.addTrip(event)">
+      </form>
+    </div>
   </body>
 </html>

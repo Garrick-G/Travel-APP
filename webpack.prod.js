@@ -5,8 +5,9 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/client/index.js',
     output: {
+      path: path.resolve(__dirname,'dist'),
       libraryTarget: 'var',
       library: 'tripFunctions',
             },

@@ -6,8 +6,8 @@ main{
   display: flex;
   flex-direction: column;
 }
-.block{
-  display: block !important;
+.flex{
+  display: flex !important;
 }
 .new_trip{
   right: 10%;
@@ -18,16 +18,35 @@ main{
 }
 #new_trip_overlay{
   position:absolute;
-  width: 75vw;
-  height: 50vh;
-  background-color: green;
-  margin:auto;
+  width: 100vw;
+  height: 100vh;
+  top:0;
+  left: 0;
+  background-color: rgba(10, 10, 10, .6);
   display: none;
+  .new_trip_overlay_input{
+    margin-top: 25vh;
+    margin-left: auto;
+    margin-right: auto;
+    height: fit-content;
+    width: 50vw;
+    background-color: lightgrey;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px;
+    .input_bundle{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      padding: 25px 0px 25px 0px;
+    }
+  }
 }
 .trips{
   min-height: 50vh;
   width: 100%;
-  background-color: cyan;
+  background-color: green;
 }
 .trips-card{
   min-height: 40vh;

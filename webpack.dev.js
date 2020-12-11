@@ -4,15 +4,16 @@ const HtmlWebPackPlugin = require("html-webpack-plugin")
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/client/index.js',
     // TODO - Add output here
     output: {
-      path: path.resolve(__dirname, '..', 'dist'),
+      path: path.resolve(__dirname,'dist'),
       libraryTarget: 'var',
       library: 'tripFunctions',
     },
     devServer:{
-      port: 9000,
+      port: 8081,
+      publicPath: '/'
     },
     mode: 'development',
     devtool: 'inline-source-map',
@@ -42,7 +43,8 @@ module.exports = {
             verbose: true,
             // Automatically remove all unused webpack assets on rebuild
             cleanStaleWebpackAssets: true,
-            protectWebpackAssets: false
+            protectWebpackAssets: false,
+            cleanAfterEveryBuildPatterns: ['main.js']
         })
     ]
 }
