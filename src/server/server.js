@@ -16,10 +16,15 @@ app.use(bodyParser.json());
 const cors = require('cors');
 app.use(cors());
 
-var sentimentApi = {
-  application_key: process.env.API_KEY
+var geonamesApi = {
+  application_key: process.env.GEONAMES_KEY
 };
-
+var weatherbitApi = {
+  application_key: process.env.WEATHERBIT_KEY
+};
+var pixabayApi = {
+  application_key: process.env.PIXABAY_KEY
+};
 
 app.use(express.static('dist'))
 
@@ -31,10 +36,16 @@ app.get('/', function (req, res) {
 })
 
 // designates what port the app will listen to for incoming requests
-app.listen(8081, function () {
-    console.log('Example app listening on port 8081!')
+app.listen(8084, function () {
+    console.log('Example app listening on port 8084!')
 })
 
-app.get('/apiKey', function (req, res) {
-    res.send(sentimentApi)
+app.get('/geonamesKey', function (req, res) {
+    res.send(geonamesApi)
+})
+app.get('/weatherbitKey', function (req, res) {
+    res.send(weatherbitApi)
+})
+app.get('/pixabayKey', function (req, res) {
+    res.send(pixabayApi)
 })

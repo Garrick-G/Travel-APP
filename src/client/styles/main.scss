@@ -46,7 +46,7 @@ main{
 .trips{
   min-height: 50vh;
   width: 100%;
-  background-color: green;
+  background-color: cyan;
 }
 .trips-card{
   min-height: 40vh;
@@ -76,8 +76,20 @@ main{
   grid-area: trip-buttons;
 }
 .trip-card-countdown{
-  grid-area: trip-cowntdown;
+  grid-area: trip-countdown;
 }
 .trips-card-weather{
   grid-area: trip-weather;
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  .trips-card-weather-header{
+    width: 100%;
+  }
+  .trips-card-weather-item{
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+  }
 }

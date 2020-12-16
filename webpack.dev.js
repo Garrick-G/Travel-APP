@@ -7,16 +7,15 @@ module.exports = {
     entry: './src/client/index.js',
     // TODO - Add output here
     output: {
-      path: path.resolve(__dirname,'dist'),
-      libraryTarget: 'var',
+      path: path.resolve(__dirname, "dist"),
+      libraryTarget: 'umd',
       library: 'tripFunctions',
     },
     devServer:{
-      port: 8081,
-      publicPath: '/'
+      injectClient: false,
     },
     mode: 'development',
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     module: {
         rules: [
             {
@@ -44,7 +43,6 @@ module.exports = {
             // Automatically remove all unused webpack assets on rebuild
             cleanStaleWebpackAssets: true,
             protectWebpackAssets: false,
-            cleanAfterEveryBuildPatterns: ['main.js']
         })
     ]
 }
