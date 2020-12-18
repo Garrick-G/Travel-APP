@@ -9,15 +9,24 @@ main{
 .flex{
   display: flex !important;
 }
+.block{
+  display: block !important
+}
+.hidden{
+  display: none !important;
+}
+button{
+  border-radius: 10px;
+  border: 1px solid dimgrey;
+}
 .new_trip{
   right: 10%;
-  border-radius: 10px;
   font-size: 18px;
   width: fit-content;
   align-self: flex-end;
 }
 #new_trip_overlay{
-  position:absolute;
+  position:fixed;
   width: 100vw;
   height: 100vh;
   top:0;
@@ -41,17 +50,27 @@ main{
       justify-content: space-around;
       padding: 25px 0px 25px 0px;
     }
+    .overlay_new_loc{
+      display:none;
+    }
   }
 }
 .trips{
   min-height: 50vh;
   width: 100%;
+}
+.trips-container{
+  border-radius: 10px;
   background-color: cyan;
+  padding-bottom: 10px;
+  margin-bottom: 7px;
+  .trips-container-buttons{
+    text-align: center;
+  }
 }
 .trips-card{
   min-height: 40vh;
   width: 100%;
-  background-color: red;
   margin-bottom: 15px;
   padding: 15px 0px 15px 0px;
   display: grid;
@@ -62,18 +81,22 @@ main{
   "trip-countdown"
   "trip-weather"
   "trip-buttons";
+  .remove-trip{
+    button{
+      background-color: maroon;
+      color: white;
+    }
+  }
 }
 .trips-card-photo{
   grid-area: trip-photo;
   margin: auto;
   max-width: 50vw;
   height: auto;
+  border-radius: 20px;
 }
 .trips-card-header{
   grid-area: trip-header;
-}
-.trips-card-buttons{
-  grid-area: trip-buttons;
 }
 .trip-card-countdown{
   grid-area: trip-countdown;

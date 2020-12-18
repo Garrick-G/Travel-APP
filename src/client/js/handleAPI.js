@@ -25,7 +25,7 @@ export function queryGeonames(key, location){
   })
 }
 
-export function queryPixabay(key, location){
+export function queryPixabay(key, location, country = null){
   return fetch('http://localhost:8084/pixabayKey')
   .then((res) => {
       if(!res.ok){
@@ -43,6 +43,12 @@ export function queryPixabay(key, location){
           return data.json();
         }
       })
+      .then(data => {
+        if(data.total === 0){
+          return queryPixabay(key, country)
+        }
+        return data
+      })
     .catch((error) => {
       console.log(error);
       //errorMsg(error);
@@ -50,8 +56,8 @@ export function queryPixabay(key, location){
   )
 }
 
-export function queryWeatherbit(lon, lat, key){
-  
+export function queryWeatherbit(lon, lat, country, key){
+
   const options = {  year: 'numeric', month: 'long', day: 'numeric'}
   let departure = new Date(document.getElementById('trip_date').value.replace(/-/g, '\/').replace(/T.+/, ''))
   let today = new Date()
@@ -102,7 +108,7 @@ export function queryWeatherbit(lon, lat, key){
         })
     })
     .then(arr => {
-      resolve(arr)
+      resolve({weather:arr, country: country})
     })
     }
   })

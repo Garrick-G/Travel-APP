@@ -11,7 +11,7 @@
     <main>
       <button type="button" name="new_trip" class="new_trip" onclick="return tripFunctions.newTripOverlay(event)">+ add trip</button>
       <div class="trips">
-        
+
       </div>
     </main>
     <div id="new_trip_overlay">
@@ -21,10 +21,13 @@
           <input type="text" name="city" id="trip_location_city" value="" placeholder="eg: Cabo San Lucas">
         </div>
         <div class="input_bundle">
-          <label for="trip_date">Departure:</label>
-          <input type="date" id="trip_date" name="date" value="" min="">
+          <label for="trip_date">Begin:</label>
+          <input type="date" id="trip_date" name="date" value="" >
+          <label for="trip_date_end">End:</label>
+          <input type="date" id="trip_date_end" name="date_end" value="" >
         </div>
-        <input type="submit" name="submit" value="+ Add Trip" onclick="return tripFunctions.addTrip(event)" onsubmit="return tripFunctions.addTrip(event)">
+        <input type="submit" name="submit" value="+ Add Location" class="overlay_new_loc"  onclick="" onsubmit="">
+        <input type="submit" name="submit" value="+ Add Trip" class="overlay_new_trip" onclick="return tripFunctions.addTrip(event)">
       </form>
     </div>
   </body>
