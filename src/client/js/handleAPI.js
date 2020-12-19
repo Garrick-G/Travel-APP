@@ -3,7 +3,7 @@ const weatherbit = 'https://api.weatherbit.io/v2.0/history/daily?';
 const pixabay = 'https://pixabay.com/api/?key=';
 
 
-export function getApiKeys() {
+export const getApiKeys = () =>{
   return fetch('http://localhost:8084/apiKeys')
       .then((res) => {
         if (!res.ok) {
@@ -16,7 +16,41 @@ export function getApiKeys() {
       });
 }
 
-export function queryGeonames(key, location) {
+export const getTripData =() =>{
+  return fetch('http://localhost:8084/trip')
+      .then((res) => {
+        if (!res.ok) {
+          if (res.status === 404) {
+            throw new Error('Unable To Find Application Server!');
+          }
+        } else {
+          return res.json();
+        }
+      });
+}
+
+
+export const postToServer = (data = {}) =>{
+  return fetch('http://localhost:8084/trip', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers:{
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  .then((res) => {
+    if (!res.ok) {
+      if (res.status === 404) {
+        throw new Error('Unable To Find Application Server!');
+      }
+    } else {
+          return res.json();
+        }
+  });
+}
+
+export const queryGeonames = (key, location) => {
   return fetch(geonames+encodeURIComponent(location)+'&isNameRequired=true&type=json&username='+key)
       .then((res) => {
         if (res.ok) {
@@ -25,7 +59,7 @@ export function queryGeonames(key, location) {
       });
 }
 
-export function queryPixabay(key, location, country = null) {
+export const queryPixabay = (key, location, country = null) =>{
   return fetch(pixabay+key+'&q='+encodeURIComponent(location)+'&image_type=photo')
       .then((data) => {
         if (data.ok) {
@@ -44,7 +78,7 @@ export function queryPixabay(key, location, country = null) {
       });
 }
 
-export function queryWeatherbit(lon, lat, country, key) {
+export const queryWeatherbit = (lon, lat, country, key) => {
   const departure = new Date(document.getElementById('trip_date').value.replace(/-/g, '\/').replace(/T.+/, ''));
 
   let end_date;
@@ -72,7 +106,7 @@ export function queryWeatherbit(lon, lat, country, key) {
     }
   }
   const weather_arr = [];
-  return new Promise(function(resolve) {
+  return new Promise((resolve) => {
     for (let i = 0; i <= 6; i++) {
       fetch(`${weatherbit}lat=${lat}&lon=${lon}&start_date=${date_arr[i]}&end_date=${date_arr[i+1]}&units=I&key=${key}`)
           .then((res) => {

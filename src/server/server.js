@@ -6,6 +6,7 @@ dotenv.config();
 
 const app = express();
 
+let trip_data = {}
 /* Middleware*/
 // Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({extended: false}));
@@ -38,5 +39,20 @@ const server = app.listen(8084, function() {
 app.get('/apiKeys', function(req, res) {
   res.send(apiKeys);
 });
+
+app.get('/trip', function(req, res){
+  res.send(trip_data);
+});
+
+app.post('/trip', function(req, res){
+  trip_data.location = req.body.location;
+  trip_data.begin = req.body.begin;
+  trip_data.end = req.body.end;
+  trip_data.countdown = req.body.countdown;
+  trip_data.weather = req.body.weather;
+  trip_data.img = req.body.img;
+  res.send(trip_data)
+});
+
 
 module.exports = {server}

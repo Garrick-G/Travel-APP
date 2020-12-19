@@ -1,18 +1,18 @@
-import {queryGeonames, queryPixabay, queryWeatherbit, getApiKeys} from './handleAPI.js';
+import {queryGeonames, queryPixabay, queryWeatherbit, getApiKeys, getTripData, postToServer} from './handleAPI.js';
 
 const options = {year: 'numeric', month: 'long', day: 'numeric'};
 const month_abrv = ['Jan', 'Feb', 'March', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 let count = 0;
 
 /* Creates a string template for the card and returns the full string */
-function cardTemplate(location, date, countdown, weather_arr, img, new_loc = false) {
-  const trip_end = new Intl.DateTimeFormat('en-US', options).format(new Date(document.getElementById('trip_date_end').value.replace(/-/g, '\/').replace(/T.+/, '')));
+const cardTemplate = (location, date_start, date_end, countdown, weather_arr, img, new_loc = false) => {
+
   // initializes variables to store HTML
   let weather_items; let icon = '';
 
   // Loop through all 7 days of the weather to set up the forcast including icons
   weather_arr.forEach((item, i) => {
-    const init_date = new Date(date);
+    const init_date = new Date(date_start);
     const next_date = new Date(init_date.setDate(init_date.getDate()+i));
     if (item.precip > 5) {
       icon = `<img src='./src/client/media/rain.png' class='weather-icon'>`;
@@ -41,7 +41,7 @@ function cardTemplate(location, date, countdown, weather_arr, img, new_loc = fal
               <img src="${img}" alt="Image of ${location}" class="trips-card-photo">
               <div class="trips-card-header">
                 <h2>${location}</h2>
-                <h4>${date} - ${trip_end}</h4>
+                <h4>${date_start} - ${date_end}</h4>
               </div>
               <div class="trips-card-countdown">
                 <h3>${countdown} days left!</h3>
@@ -73,7 +73,7 @@ function cardTemplate(location, date, countdown, weather_arr, img, new_loc = fal
 
 // When a remove button is clicked, it asks for confirmation then deletes the element.
 // If it was the last location, it deletes the entire container
-function removeTrip(element) {
+const removeTrip = (element) =>{
   const choice = confirm('Are you sure?');
   if (choice === true) {
     if (element.parentElement.getElementsByClassName('trips-card').length === 1) {
@@ -84,11 +84,12 @@ function removeTrip(element) {
   }
 }
 
+
 /*
   Shows the input form overlay. If its to add a location, the submit button is changed slightly to add a new location instead of an
   entire trip.
 */
-function newTripOverlay(event, element = null) {
+const newTripOverlay = (event, element = null) => {
   event.stopPropagation();
   event.preventDefault();
 
@@ -132,18 +133,21 @@ function newTripOverlay(event, element = null) {
 }
 
 // Gets dates and chains all the API calls to set up the card
-function addTrip(event = null, ele = null) {
+const addTrip = (event = null, ele = null) => {
   if (event !== null) {
     event.preventDefault();
   }
   document.getElementById('new_trip_overlay').classList.remove('flex');
+  //Gets location data from the UI
   const location = document.getElementById('trip_location_city').value;
+  //Gets date from the UI and formats it
   const departure = new Date(document.getElementById('trip_date').value.replace(/-/g, '\/').replace(/T.+/, ''));
   const today = new Date();
   const time_between = departure - today;
   const countdown = Math.floor(time_between / (1000 * 60 * 60 * 24));
-  const date = new Intl.DateTimeFormat('en-US', options).format(new Date(document.getElementById('trip_date').value.replace(/-/g, '\/').replace(/T.+/, '')));
-  if (location && date) {
+  const date_begin = new Intl.DateTimeFormat('en-US', options).format(new Date(document.getElementById('trip_date').value.replace(/-/g, '\/').replace(/T.+/, '')));
+  const date_end = new Intl.DateTimeFormat('en-US', options).format(new Date(document.getElementById('trip_date_end').value.replace(/-/g, '\/').replace(/T.+/, '')));
+  if (location && date_begin) {
     getApiKeys()
         .then((res) => {
           queryGeonames(res.geonames, location)
@@ -151,16 +155,23 @@ function addTrip(event = null, ele = null) {
               .then((weather_data) => {
                 queryPixabay(res.pixabay, location, weather_data.country)
                     .then((res) => {
-                      if (ele !== null) {
-                        document.getElementsByClassName('trips-container-buttons')[ele].insertAdjacentHTML('beforebegin', cardTemplate(location, date, countdown, weather_data.weather, res.hits[0].webformatURL, true));
-                      } else {
-                        document.getElementsByClassName('trips')[0].insertAdjacentHTML('beforeend', cardTemplate(location, date, countdown, weather_data.weather, res.hits[0].webformatURL));
-                      }
-                    });
-              });
-        })
+                      let date_obj = {location: location, begin: date_begin, end: date_end, countdown: countdown, weather: weather_data.weather, img: res.hits[0].webformatURL}
+                      postToServer(date_obj)
+                      .then(() => {
+                        getTripData()
+                        .then(res => {
+                          if (ele !== null) {
+                            document.getElementsByClassName('trips-container-buttons')[ele].insertAdjacentHTML('beforebegin', cardTemplate(res.location, res.begin, res.end, res.countdown, res.weather, res.img, true));
+                          } else {
+                            document.getElementsByClassName('trips')[0].insertAdjacentHTML('beforeend', cardTemplate(res.location, res.begin, res.end, res.countdown, res.weather, res.img));
+                          }
+                        })
+                      })
+                    })
+              })
+          })
+        }
   }
-}
 
 
 export {newTripOverlay, addTrip, removeTrip};
